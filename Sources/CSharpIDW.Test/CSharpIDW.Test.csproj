@@ -55,7 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sources\CSharpIDW\CSharpIDW.csproj">
+    <ProjectReference Include="..\CSharpIDW\CSharpIDW.csproj">
       <Project>{3954CFAB-11E0-4100-9BAF-52FC7F249513}</Project>
       <Name>CSharpIDW</Name>
     </ProjectReference>

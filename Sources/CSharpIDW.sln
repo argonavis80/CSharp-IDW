@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpIDW", "CSharpIDW\CSha
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{95954717-385E-4527-80BF-6E376ACD36F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpIDW.Test", "..\CSharpIDW.Test\CSharpIDW.Test.csproj", "{4659E9B8-C901-42D1-B3F5-E1833956C6F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpIDW.Test", "CSharpIDW.Test\CSharpIDW.Test.csproj", "{4659E9B8-C901-42D1-B3F5-E1833956C6F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

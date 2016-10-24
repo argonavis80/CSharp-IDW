@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KdTreeLib, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\KdTree.1.3.0\lib\net45\KdTreeLib.dll</HintPath>
+      <HintPath>..\packages\KdTree.1.3.0\lib\net45\KdTreeLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -51,7 +51,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
