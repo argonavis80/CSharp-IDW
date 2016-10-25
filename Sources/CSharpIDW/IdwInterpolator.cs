@@ -7,6 +7,13 @@ using KdTree.Math;
 
 namespace CSharpIDW
 {
+    /// <summary>
+    /// Inverse Distance Weighting (IDW) interpolator. 
+    /// </summary>
+    /// <remarks>
+    /// The interpolator implements the modified Shepard's method, with only nearest neighbours.
+    /// https://en.wikipedia.org/wiki/Inverse_distance_weighting
+    /// </remarks>
     public class IdwInterpolator
     {
         private readonly int _dimensions;

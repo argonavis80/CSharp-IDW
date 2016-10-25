@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CSharpIDW")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("C# library for fast multi-dimensional inverse distance weighting (IDW) interpolation.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Henrik Alfke")]
 [assembly: AssemblyProduct("CSharpIDW")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
