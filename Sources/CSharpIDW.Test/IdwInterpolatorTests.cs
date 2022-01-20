@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 // ReSharper disable ArgumentsStyleLiteral
 // ReSharper disable PossibleInvalidOperationException
 
 namespace CSharpIDW.Test
 {
-    [TestClass]
     [ExcludeFromCodeCoverage]
     public class IdwInterpolatorTests
     {
         private List<Point> _pointRange;
 
-        [TestInitialize]
-        public void Setup()
+        public IdwInterpolatorTests()
         {
             _pointRange = new List<Point>
             {
@@ -31,79 +29,70 @@ namespace CSharpIDW.Test
             };
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void FailDimensionOutOfRange()
         {
             // ReSharper disable once UnusedVariable
-            var target = new IdwInterpolator(dimensions: 0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new IdwInterpolator(dimensions: 0));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void FailPowerOutOfRange()
         {
             // ReSharper disable once UnusedVariable
-            var target = new IdwInterpolator(dimensions: 2, power: 0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new IdwInterpolator(dimensions: 2, power: 0));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void FailNumberOfNeighboursOutOfRange()
         {
             // ReSharper disable once UnusedVariable
-            var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 0));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [Fact]
         public void FailWithTooFewPoints()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 5);
 
             target.AddPointRange(_pointRange.Take(4).ToList()); // Not enough points.
 
-            target.Interpolate(1, 1);
+            Assert.Throws<IndexOutOfRangeException>(() => target.Interpolate(1, 1));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void FailWithNullPointRange()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 5);
 
-            target.AddPointRange(null);
+            Assert.Throws<ArgumentNullException>(() => target.AddPointRange(null));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void FailWithPointWithWrongDimension()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 5);
 
-            target.AddPoint(new Point(1, 1, 1, 1)); // One dimension too much.
+            Assert.Throws<ArgumentException>(() => target.AddPoint(new Point(1, 1, 1, 1))); // One dimension too much.
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void FailWithPointAndMissingCoordinates()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 5);
 
-            target.AddPoint(1, null); // Coordinates missing.
+            Assert.Throws<ArgumentNullException>(() => target.AddPoint(1, null)); // Coordinates missing.
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void FailWithPointAndCoordinatesWithWrongDimension()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 5);
 
-            target.AddPoint(1, 1, 1, 1); // One dimension too much.
+            Assert.Throws<ArgumentException>(() => target.AddPoint(1, 1, 1, 1)); // One dimension too much.
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void FailWithPointRangeWithWrongDimension()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 5);
@@ -118,21 +107,20 @@ namespace CSharpIDW.Test
                 new Point(2.4, 1) // Dimension wrong.
             };
 
-            target.AddPointRange(pointRange);
+            Assert.Throws<ArgumentException>(() => target.AddPointRange(pointRange));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void FailInterpolateWithWrongDimension()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 5);
 
             target.AddPointRange(_pointRange);
 
-            target.Interpolate(1, 1, 1); // One dimension to much.
+            Assert.Throws<ArgumentException>(() => target.Interpolate(1, 1, 1)); // One dimension to much.
         }
 
-        [TestMethod]
+        [Fact]
         public void TestInterpolateWithPointHit()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 4);
@@ -141,13 +129,13 @@ namespace CSharpIDW.Test
 
             var result = target.Interpolate(1, 1);
 
-            Assert.AreEqual(2.2, result.Value);
-            Assert.AreEqual(1, result.Point.Value.Coordinates[0]);
-            Assert.AreEqual(1, result.Point.Value.Coordinates[1]);
-            Assert.AreEqual(InterpolationResult.ResultOptions.Hit, result.Result);
+            Assert.Equal(2.2, result.Value);
+            Assert.Equal(1, result.Point.Value.Coordinates[0]);
+            Assert.Equal(1, result.Point.Value.Coordinates[1]);
+            Assert.Equal(InterpolationResult.ResultOptions.Hit, result.Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestNearestNeighbourInterpolation()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 1);
@@ -159,15 +147,15 @@ namespace CSharpIDW.Test
 
             var result = target.Interpolate(1.1, 1.1);
 
-            Assert.AreEqual(2.2, result.Value);
-            Assert.AreEqual(1, result.Point.Value.Coordinates[0]);
-            Assert.AreEqual(1, result.Point.Value.Coordinates[1]);
-            Assert.AreEqual(InterpolationResult.ResultOptions.NearestNeighbor, result.Result);
+            Assert.Equal(2.2, result.Value);
+            Assert.Equal(1, result.Point.Value.Coordinates[0]);
+            Assert.Equal(1, result.Point.Value.Coordinates[1]);
+            Assert.Equal(InterpolationResult.ResultOptions.NearestNeighbor, result.Result);
         }
 
         
 
-        [TestMethod]
+        [Fact]
         public void TestWeightedInterpolation()
         {
             var target = new IdwInterpolator(dimensions: 2, power: 2, numberOfNeighbours: 4);
@@ -179,12 +167,12 @@ namespace CSharpIDW.Test
 
             var result = target.Interpolate(1.5, 1.5);
 
-            Assert.AreEqual(2.875, result.Value, 0.001);
-            Assert.AreEqual(InterpolationResult.ResultOptions.Interpolated, result.Result);
-            Assert.IsNull(result.Point);
+            Assert.Equal(2.875, result.Value, 3);
+            Assert.Equal(InterpolationResult.ResultOptions.Interpolated, result.Result);
+            Assert.Null(result.Point);
         }
 
-        //[TestMethod]
+        //[Fact]
         //public void TestWeightedExtrapolation()
         //{
         //    // TODO: Currently failing, because convex hull not yet checked.
